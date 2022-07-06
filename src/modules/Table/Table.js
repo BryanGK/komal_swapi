@@ -13,6 +13,16 @@ export default function Table() {
           <td>Species</td>
         </tr>
       </thead>
+      <tbody>
+        <tr>
+          <td>A</td>
+          <td>B</td>
+          <td>C</td>
+          <td>D</td>
+          <td>E</td>
+          <td>F</td>
+        </tr>
+      </tbody>
     </table>
   );
 }
