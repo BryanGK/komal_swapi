@@ -1,28 +1,39 @@
 import React from "react";
 
-export default function Table() {
+export default function Table({
+  name,
+  birth,
+  height,
+  mass,
+  homeWorld,
+  species,
+}) {
+  // console.log(birth);
   return (
-    <table className="table table-bordered mt-4">
-      <thead className="table table-hover table-sm">
-        <tr>
-          <td>Name</td>
-          <td>Birth Date</td>
-          <td>Height</td>
-          <td>Mass</td>
-          <td>Home World</td>
-          <td>Species</td>
-        </tr>
-      </thead>
+    // <table className="table table-bordered mt-4">
+    //   <thead className="table table-hover table-sm">
+    //     <tr>
+    //       <td>Name</td>
+    //       <td>Birth Date</td>
+    //       <td>Height</td>
+    //       <td>Mass</td>
+    //       <td>Home World</td>
+    //       <td>Species</td>
+    //     </tr>
+    //   </thead>
+    <>
       <tbody>
         <tr>
-          <td>A</td>
-          <td>B</td>
-          <td>C</td>
-          <td>D</td>
-          <td>E</td>
-          <td>F</td>
+          <td>{name}</td>
+          <td>{birth}</td>
+          <td>{height}</td>
+          <td>{mass}</td>
+          <td>{homeWorld}</td>
+          <td>{species}</td>
         </tr>
       </tbody>
-    </table>
+    </>
+
+    // </table>
   );
 }
