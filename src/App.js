@@ -1,73 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import axios from "axios";
 import Header from "./modules/Header";
-import Table from "./modules/Table/Table";
-// import SwapiApi from "./SwapiApi";
-// import SwapiApi from "./SwapiApi";
+// import Table from "./modules/Table/Table";
 
 export default function App() {
-  const [tableData, setTableData] = useState([
-    // {
-    //   name: "",
-    //   birthDate: "",
-    //   height: "",
-    //   mass: "",
-    //   homeWorld: "",
-    //   species: "",
-    // },
-  ]);
-  console.log(tableData);
+  // const [tableData, setTableData] = useState([]);
+  // console.log(tableData);
 
-  async function swapiData() {
-    const swapiApi = await axios.get("https://swapi.dev/api/"); //return an object, which is why there is no need to convert the given data into JSON object
-    // const response = await swapiApi.json();
-
-    const response = await swapiApi.data.people; //output: https://swapi.dev/api/people/
+  async function getCharacterData() {
+    let swapiApi = await axios.get("https://swapi.dev/api/people");
+    let response = await swapiApi.data;
     // console.log(response);
-
-    const fetchData = await axios.get(response); //fetching data in form of an object from people's Url
-    // console.log("fetchData: ", fetchData)
-
-    const characterName = await fetchData.data.results; //pulling up the array of object data of people
-    // console.table("Name: ", typeof characterName);
-    return characterName;
+    let characterData = [];
+    while (response.next) {
+      characterData.push(response.results);
+      swapiApi = await axios.get(response.next);
+      response = await swapiApi.data;
+      // console.log(characterData);
+      if (!response.next) {
+        characterData.push(response.results);
+      }
+    }
+    // console.log(characterData);
+    return characterData;
   }
 
   async function assignTableData() {
-    let swapiMap = await swapiData();
-    // console.log(swapiMap);
-    // let stateData = {
-    //   name:
-    // }
-
-    let swapiChData = swapiMap.map((personData) => {
-      return {
-        name: personData.name,
-        birth: personData.birth_year,
-        height: personData.height,
-        mass: personData.mass,
-        homeWorld: personData.homeworld,
-        species: personData.species,
-      };
-    });
-    setTableData(swapiChData);
+    let swapiMap = await getCharacterData();
+    console.log(swapiMap);
   }
 
-  const tableCellData = tableData.map((personData) => {
-    return (
-      <Table
-        name={personData.name}
-        birth={personData.birth}
-        height={personData.height}
-        mass={personData.mass}
-        homeWorld={personData.homeWorld}
-        species={personData.species}
-      />
-    );
-  });
+  assignTableData();
+
+  //   let swapiChData = swapiMap.map((personData) => {
+  //     return {
+  //       name: personData.name,
+  //       birth: personData.birth_year,
+  //       height: personData.height,
+  //       mass: personData.mass,
+  //       homeWorld: personData.homeworld,
+  //       species: personData.species,
+  //     };
+  //   });
+  //   setTableData(swapiChData);
+  // }
+
+  // const tableCellData = tableData.map((personData) => {
+  //   return (
+  //     <Table
+  //       name={personData.name}
+  //       birth={personData.birth}
+  //       height={personData.height}
+  //       mass={personData.mass}
+  //       homeWorld={personData.homeWorld}
+  //       species={personData.species}
+  //     />
+  //   );
+  // });
 
   // let data = {
-  //   name: characterName,
+  //   name: response,
   //   birthDate: characterBirthDate,
   //   height: characterHeight,
   //   mass: characterMass,
@@ -77,9 +69,9 @@ export default function App() {
 
   // }
 
-  useEffect(() => {
-    assignTableData();
-  }, []);
+  // useEffect(() => {
+  //   assignTableData();
+  // }, []);
 
   return (
     <div>
@@ -95,18 +87,18 @@ export default function App() {
             <td>Species</td>
           </tr>
         </thead>
-        {tableCellData}
+        {/* {tableCellData} */}
       </table>
     </div>
   );
 }
 
 // async function assignTableData() {
-// let swapiMap = await swapiData(); //type is object
+// let swapiMap = await getCharacterData(); //type is object
 // console.log(swapiMap)
 // let arrData = Object.entries(swapiMap); //returning an empty array => Why it returns an empty array
-// let characterName = swapiMap.map((eachPerson) => eachPerson.name); //map only works on Arrays
-// console.log(characterName);
+// let response = swapiMap.map((eachPerson) => eachPerson.name); //map only works on Arrays
+// console.log(response);
 // let characterBirthDate = swapiMap.map(
 //   (eachPerson) => eachPerson.birth_year
 // ); //map only works on Arrays
@@ -115,7 +107,7 @@ export default function App() {
 // let characterHomeWorld = swapiMap.map((eachPerson) => eachPerson.homeworld); //map only works on Arrays
 // let characterSpecies = swapiMap.map((eachPerson) => eachPerson.species); //map only works on Arrays
 // console.log(eachTableData);
-// console.table(characterName);
+// console.table(response);
 // console.table(characterBirthDate);
 // console.table(characterHeight);
 // console.table(characterMass);
@@ -134,7 +126,7 @@ export default function App() {
 // });
 // console.log("api", api);
 
-// async function swapiData() {
+// async function getCharacterData() {
 //   const response = await axios.get("https://swapi.dev/api/");
 //   console.log(response.data.people);
 
@@ -145,7 +137,7 @@ export default function App() {
 //   return peopleURL;
 // }
 
-// swapiData()
+// getCharacterData()
 //   .then((response) => console.log(response))
 //   .catch((err) => console.log("Error is: ", err));
 
