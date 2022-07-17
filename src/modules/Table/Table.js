@@ -1,3 +1,4 @@
+// import axios from "axios";
 import React from "react";
 
 export default function Table({
@@ -9,6 +10,7 @@ export default function Table({
   species,
 }) {
   // console.log(birth);
+
   return (
     // <table className="table table-bordered mt-4">
     //   <thead className="table table-hover table-sm">
@@ -36,3 +38,18 @@ export default function Table({
     // </table>
   );
 }
+
+//did not work => 1
+// async function getHomeWorldName() {
+//   const homeWorldName = await axios.get(homeWorld);
+//   const response = await homeWorldName.data.name;
+//   console.log(response);
+//   return response;
+// }
+// // getHomeWorldName(homeWorld);
+
+// async function homeName() {
+//   let planetName = await getHomeWorldName();
+//   return planetName;
+// }
+// let data = homeName();
