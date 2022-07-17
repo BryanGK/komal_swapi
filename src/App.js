@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
+import { nanoid } from "nanoid";
 import Header from "./modules/Header";
-// import Table from "./modules/Table/Table";
+import { useState } from "react";
+import Table from "./modules/Table/Table";
 
 export default function App() {
-  // const [tableData, setTableData] = useState([]);
-  // console.log(tableData);
+  const [tableData, setTableData] = useState([]);
+  // console.log("tableData", tableData);
 
   async function getCharacterData() {
     let swapiApi = await axios.get("https://swapi.dev/api/people");
@@ -26,13 +28,56 @@ export default function App() {
   }
 
   async function assignTableData() {
-    let swapiMap = await getCharacterData();
-    console.log(swapiMap);
+    let swapidata = await getCharacterData();
+    let fetchHomeWorldData;
+    let response;
+    // loop through each character to get homeworld name
+    for (let i = 0; i < swapidata.length; i++) {
+      for (let j = 0; j < swapidata[i].length; j++) {
+        fetchHomeWorldData = await axios.get(swapidata[i][j].homeworld);
+        // console.log(fetchHomeWorldData);
+        response = await fetchHomeWorldData.data.name;
+        console.log("response: ", response);
+      }
+    }
+    // console.log(fetchHomeWorldData);
+
+    // const mapCharacterData = swapidata.map((eachCharacterData) => {
+    //   return {
+    //     chName: eachCharacterData.name,
+    //     birthDate: eachCharacterData.birth,
+    //     height: eachCharacterData.height,
+    //     mass: eachCharacterData.mass,
+    //     homeWorld: fetchHomeWorldData,
+    //     species: eachCharacterData.species,
+    //   };
+    // });
+    const mapData = swapidata.map((eachData) => console.log(eachData));
+    setTableData(mapData.flat());
+    return mapData;
   }
 
-  assignTableData();
+  useEffect(() => {
+    assignTableData();
+  }, []);
 
-  //   let swapiChData = swapiMap.map((personData) => {
+  const tableCellData = tableData.map((personData) => {
+    return (
+      <Table
+        key={nanoid()}
+        name={personData.name}
+        birth={personData.birth}
+        height={personData.height}
+        mass={personData.mass}
+        homeWorld={personData.homeworld}
+        species={personData.species}
+      />
+    );
+  });
+
+  // console.table(tableCellData);
+
+  //   let swapiChData = swapidata.map((personData) => {
   //     return {
   //       name: personData.name,
   //       birth: personData.birth_year,
@@ -45,19 +90,6 @@ export default function App() {
   //   setTableData(swapiChData);
   // }
 
-  // const tableCellData = tableData.map((personData) => {
-  //   return (
-  //     <Table
-  //       name={personData.name}
-  //       birth={personData.birth}
-  //       height={personData.height}
-  //       mass={personData.mass}
-  //       homeWorld={personData.homeWorld}
-  //       species={personData.species}
-  //     />
-  //   );
-  // });
-
   // let data = {
   //   name: response,
   //   birthDate: characterBirthDate,
@@ -66,8 +98,6 @@ export default function App() {
   //   homeWorld: characterHomeWorld,
   //   species: characterSpecies,
   // };
-
-  // }
 
   // useEffect(() => {
   //   assignTableData();
@@ -87,69 +117,8 @@ export default function App() {
             <td>Species</td>
           </tr>
         </thead>
-        {/* {tableCellData} */}
+        {tableCellData}
       </table>
     </div>
   );
 }
-
-// async function assignTableData() {
-// let swapiMap = await getCharacterData(); //type is object
-// console.log(swapiMap)
-// let arrData = Object.entries(swapiMap); //returning an empty array => Why it returns an empty array
-// let response = swapiMap.map((eachPerson) => eachPerson.name); //map only works on Arrays
-// console.log(response);
-// let characterBirthDate = swapiMap.map(
-//   (eachPerson) => eachPerson.birth_year
-// ); //map only works on Arrays
-// let characterHeight = swapiMap.map((eachPerson) => eachPerson.height); //map only works on Arrays
-// let characterMass = swapiMap.map((eachPerson) => eachPerson.mass); //map only works on Arrays
-// let characterHomeWorld = swapiMap.map((eachPerson) => eachPerson.homeworld); //map only works on Arrays
-// let characterSpecies = swapiMap.map((eachPerson) => eachPerson.species); //map only works on Arrays
-// console.log(eachTableData);
-// console.table(response);
-// console.table(characterBirthDate);
-// console.table(characterHeight);
-// console.table(characterMass);
-// console.table(characterHomeWorld);
-// console.table(characterSpecies);
-
-// function updateTableData() {
-//   assignTableData();
-//   // console.log(cellData)
-// }
-
-// updateTableData()
-
-// const api = axios.create({
-//   baseURL: "https://swapi.dev/api/",
-// });
-// console.log("api", api);
-
-// async function getCharacterData() {
-//   const response = await axios.get("https://swapi.dev/api/");
-//   console.log(response.data.people);
-
-//   const responseJSON = await response.json();
-//   // console.log(responseJSON);
-//   const peopleURL = await responseJSON.data;
-//   console.log(peopleURL);
-//   return peopleURL;
-// }
-
-// getCharacterData()
-//   .then((response) => console.log(response))
-//   .catch((err) => console.log("Error is: ", err));
-
-// let swapiURL = "https://swapi.dev/api/";
-// // console.log(swapiURL);
-
-// fetch(swapiURL)
-//   .then((response) => response.json())
-//   .then(data => data.people)
-//   .then(peopleData => fetch(peopleData))
-//   .then(peopleDataJSON => peopleDataJSON.json())
-//   .then(nameValue => nameValue.results[0].films[1])
-//   .then(filmURL => fetch(filmURL))
-//   .then(filmJSON => filmJSON.json())
-//   .then(filmTitle => console.log(filmTitle.title))
