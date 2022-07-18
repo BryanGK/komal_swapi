@@ -30,6 +30,8 @@ export default function App() {
     return characterData;
   }
 
+  //Expecting: A String value
+  //Actual: Returing a Promise(not sure why, because I am using await keyword to resolve a promise)
   async function getHomeName() {
     const getSwapiData = await getCharacterData();
     const homeName = await Promise.all(
@@ -55,7 +57,7 @@ export default function App() {
     return homeName;
   }
 
-  console.log(getHomeName());
+  getHomeName();
 
   //this also return a promise, not sure why???
   // async function resolveHomePromise() {
