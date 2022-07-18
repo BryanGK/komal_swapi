@@ -3,16 +3,16 @@ import axios from "axios";
 // import { nanoid } from "nanoid";
 import Header from "./modules/Header";
 import { useState } from "react";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 // import Table from "./modules/Table/Table";
 
 export default function App() {
   const [tableData, setTableData] = useState();
-  // console.log("tableData", tableData);
+  console.log("tableData", tableData);
 
-  useEffect(() => {
-    assignTableData();
-  }, []);
+  // useEffect(() => {
+  // appendDataToState();
+  // }, []);
 
   async function getCharacterData() {
     let swapiApi = await axios.get("https://swapi.dev/api/people");
@@ -26,31 +26,44 @@ export default function App() {
         characterData.push(response.results);
       }
     }
+    // console.log(characterData);
     return characterData;
   }
 
-  async function assignTableData() {
-    const swapidata = await getCharacterData(); //Array
-    const mapSwapiData = swapidata.map((chData) => {
-      return chData.map(async (data) => {
-        const fetchHomeData = await axios.get(data.homeworld);
-        const response = await fetchHomeData.data.name;
-        const species = await axios.get(data.species);
-        const speciesResponse = await species.data.name;
-        return {
-          chName: data.name,
-          chBirthDate: data.birth_year,
-          chHeight: data.height,
-          chMass: data.mass,
-          chHome: response,
-          chSpecies: speciesResponse,
-        };
-      });
-    });
-    console.log(mapSwapiData);
+  async function getHomeName() {
+    const getSwapiData = await getCharacterData();
+    const homeName = await Promise.all(
+      getSwapiData.map((swapiData) => {
+        return swapiData.map(async (data) => {
+          const fetchHomeData = await axios.get(data.homeworld);
+          const response = await fetchHomeData.data.name;
+          console.log(response); //return a string value
+          // const result = await response;
+          // console.log(result);
+          // return result;
+        });
+      })
+    );
+    //why does homename does not get resolved
+    //Question: How to resolve "homeName" promise to a string value
+
+    //THIS DOES NOT WORK
+    //  const stringHomeName = await homeName
+    //  console.log(stringHomeName)
+
+    console.log(homeName); //return Promise
+    return homeName;
   }
 
-  // const tableCellData = tableData.map((data) => console.log(data));
+  console.log(getHomeName());
+
+  //this also return a promise, not sure why???
+  // async function resolveHomePromise() {
+  //   const homeworldName = await getHomeName();
+  //   console.log(homeworldName);
+  // }
+
+  // resolveHomePromise();
 
   return (
     <div>
@@ -71,6 +84,56 @@ export default function App() {
     </div>
   );
 }
+
+// const flatData = getSwapiData.flat();
+// console.log(flatData);
+//THIS WAY HOMEWORLD'S URL IS UNDEFINED
+//WHY => MY THINKING IS THAT IT COULD BE BECAUSE the returned data is Array of ARray of OBJECT
+// const getHomeData = getSwapiData.map(async (chData) => {
+//   const homeData = await axios.get(chData.homeworld);
+//   console.log(homeData);
+// });
+
+//RETURN THE ARRAY OF PROMISES => EXPECTING AN ARRAY OF STRING VALUES
+//THINK OF ANOTHER WAY OF WRITING THIS FUNCTION
+// async function assignTableData() {
+//   const swapidata = await getCharacterData(); //Array
+//   const mapSwapiData = swapidata.map((chData) => {
+//     return chData.map(async (data) => {
+//       const fetchHomeData = await axios.get(data.homeworld);
+//       const species = await axios.get(data.species);
+//       const response = await fetchHomeData.data.name;
+//       const speciesResponse = await species.data.name;
+//       return {
+//         chName: data.name,
+//         chBirthDate: data.birth_year,
+//         chHeight: data.height,
+//         chMass: data.mass,
+//         chHome: response,
+//         chSpecies: speciesResponse,
+//       };
+//     });
+//   });
+//   setTableData(mapSwapiData);
+//   // console.log(data);
+// }
+
+//DID NOT WORK
+// const tableCellData = (tableData ?? []).map((data) => {
+//   return (
+//     <Table
+//       key={nanoid()}
+//       name={data.chName}
+//       birth={data.chBirthDate}
+//       height={data.ChHeight}
+//       mass={data.chMass}
+//       homeWorld={data.chHome}
+//       species={data.chSpecies}
+//     />
+//   );
+// });
+
+// console.log(tableCellData);
 
 // let fetchHomeWorldData;
 // let response;
