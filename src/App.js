@@ -10,10 +10,6 @@ export default function App() {
   const [tableData, setTableData] = useState();
   console.log("tableData", tableData);
 
-  // useEffect(() => {
-  // appendDataToState();
-  // }, []);
-
   async function getCharacterData() {
     let swapiApi = await axios.get("https://swapi.dev/api/people");
     let response = await swapiApi.data;
@@ -31,50 +27,25 @@ export default function App() {
     return data;
   }
 
-  //Expecting: A String value
-  //Actual: Returing a Promise(not sure why, because I am using await keyword to resolve a promise)
-  async function getHomeName() {
+  async function getHomeAndSpecieName() {
     const getSwapiData = await getCharacterData();
-    // debugger;
+
+    //homeName
     for (let char of getSwapiData) {
-      console.log(char.homeworld);
-      // debugger;
+      const characterHomeData = await axios.get(char.homeworld);
+      const characterHomeName = await characterHomeData.data.name;
+      console.log(characterHomeName, "HomeName");
     }
 
-    // const homeName = function () {
-    //   Promise.all(
-    //     getSwapiData.map((swapiData) => {
-    //       return swapiData.map(async (data) => {
-    //         const fetchHomeData = await axios.get(data.homeworld);
-    //         const response = await fetchHomeData.data.name;
-    //         console.log(response); //return a string value
-    // const result = await response;
-    // console.log(result);
-    // return result;
-    //       });
-    //     })
-    //   );
-    // };
-    //why does homename does not get resolved
-    //Question: How to resolve "homeName" promise to a string value
-
-    //THIS DOES NOT WORK
-    // const stringHomeName = await homeName();
-    // console.log(stringHomeName);
-
-    // console.log(homeName); //return Promise
-    // return homeName;
+    //Specie Name
+    for (let char of getSwapiData) {
+      const characterSpeciesData = await axios.get(char.species);
+      const characterSpecieName = await characterSpeciesData.data.name;
+      console.log(characterSpecieName, "SPECIEnAME");
+    }
   }
 
   getHomeName();
-
-  //this also return a promise, not sure why???
-  // async function resolveHomePromise() {
-  //   const homeworldName = await getHomeName();
-  //   console.log(homeworldName);
-  // }
-
-  // resolveHomePromise();
 
   return (
     <div>
@@ -105,8 +76,8 @@ export default function App() {
 //   console.log(homeData);
 // });
 
-//RETURN THE ARRAY OF PROMISES => EXPECTING AN ARRAY OF STRING VALUES
-//THINK OF ANOTHER WAY OF WRITING THIS FUNCTION
+//RETURN THE ARRAY of PROMISES => EXPECTING AN ARRAY of STRING VALUES
+//THINK of ANOTHER WAY of WRITING THIS FUNCTION
 // async function assignTableData() {
 //   const swapidata = await getCharacterData(); //Array
 //   const mapSwapiData = swapidata.map((chData) => {
