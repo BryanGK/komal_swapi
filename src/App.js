@@ -26,35 +26,44 @@ export default function App() {
         characterData.push(response.results);
       }
     }
-    // console.log(characterData);
-    return characterData;
+    const data = characterData.flat();
+    console.log(data);
+    return data;
   }
 
   //Expecting: A String value
   //Actual: Returing a Promise(not sure why, because I am using await keyword to resolve a promise)
   async function getHomeName() {
     const getSwapiData = await getCharacterData();
-    const homeName = await Promise.all(
-      getSwapiData.map((swapiData) => {
-        return swapiData.map(async (data) => {
-          const fetchHomeData = await axios.get(data.homeworld);
-          const response = await fetchHomeData.data.name;
-          console.log(response); //return a string value
-          // const result = await response;
-          // console.log(result);
-          // return result;
-        });
-      })
-    );
+    // debugger;
+    for (let char of getSwapiData) {
+      console.log(char.homeworld);
+      // debugger;
+    }
+
+    // const homeName = function () {
+    //   Promise.all(
+    //     getSwapiData.map((swapiData) => {
+    //       return swapiData.map(async (data) => {
+    //         const fetchHomeData = await axios.get(data.homeworld);
+    //         const response = await fetchHomeData.data.name;
+    //         console.log(response); //return a string value
+    // const result = await response;
+    // console.log(result);
+    // return result;
+    //       });
+    //     })
+    //   );
+    // };
     //why does homename does not get resolved
     //Question: How to resolve "homeName" promise to a string value
 
     //THIS DOES NOT WORK
-    //  const stringHomeName = await homeName
-    //  console.log(stringHomeName)
+    // const stringHomeName = await homeName();
+    // console.log(stringHomeName);
 
-    console.log(homeName); //return Promise
-    return homeName;
+    // console.log(homeName); //return Promise
+    // return homeName;
   }
 
   getHomeName();
