@@ -11,7 +11,8 @@ export default function App() {
   console.log("tableData", tableData);
 
   getCharacterHomeWorldSpecieData();
-
+  let count = 0;
+  const randomHome = Math.floor(Math.random() * 82);
   async function getCharacterHomeWorldSpecieData() {
     let fetchCharacterData = await axios.get("https://swapi.dev/api/people");
     let characterResponse = await fetchCharacterData.data;
@@ -32,17 +33,29 @@ export default function App() {
     }
 
     for (let char of characterDataArray) {
+      // console.log(char.homeworld, count++);
       const getHomeWorldUrl = await axios.get(char.homeworld);
       const homeName = await getHomeWorldUrl.data.name;
       char.homeworld = homeName;
+
+      // console.log(randomHome);
+      // const objKey = Object.keys(char);
+      // console.log(objKey, "homeUrl");
     }
 
     for (let char of characterDataArray) {
+      console.log(char.species, count++);
       const getSepcieUrl = await axios.get(char.species);
       const specieName = await getSepcieUrl.data.name;
       char.species = specieName;
     }
-    console.log(characterDataArray, "characterData");
+
+    console.log(
+      // "characterDataArray" + characterDataArray[randomHome] + randomHome
+      randomHome,
+      characterDataArray[randomHome]
+    );
+    // console.log(characterDataArray);
   }
 
   return (
