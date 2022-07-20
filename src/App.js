@@ -6,10 +6,12 @@ import { useState } from "react";
 import { useEffect } from "react";
 // import { useEffect } from "react";
 import Table from "./modules/Table/Table";
+import SearchCharacterData from "./modules/SearchCharacterData";
 
 export default function App() {
   const [tableData, setTableData] = useState([]);
-  // console.log("tableData", tableData);
+  const [searchCharacterData, setSearchCharacterData] = useState("");
+  console.log(searchCharacterData);
   let count = 0;
   useEffect(() => {
     getCharacterHomeWorldSpecieData();
@@ -73,23 +75,25 @@ export default function App() {
     setTableData(characterDataArray);
   }
 
-  // function searchCharacterByName(tableData) {
-  //   if (document.getElementById("searchCharacter").value === tableData.name) {
-  //     console.log("Passed");
-  //   }
-  // }
+  function handleChange(event) {
+    event.preventDefault();
+    setSearchCharacterData(event.target.value);
+  }
+
+  function displaySearchedCharacter() {
+    console.log("button clicked!");
+  }
 
   return (
     <div>
       <Header />
-      {/* <input
-        id="searchCharacter"
-        type="text"
-        value=""
-        placeholder="Search Character by name..."
-        className="m-3"
-        onChange={searchCharacterByName}
-      /> */}
+      <SearchCharacterData
+        name="searchCharacter"
+        value={searchCharacterData}
+        handleChange={handleChange}
+        // clickEvent={displaySearchedCharacter(searchCharacterData)}
+      />
+      <button onClick={displaySearchedCharacter}>Search...</button>
       <table className="table table-bordered mt-4">
         <thead className="table table-hover table-sm">
           <tr>
