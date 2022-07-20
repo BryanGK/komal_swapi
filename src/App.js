@@ -1,18 +1,38 @@
 import React from "react";
 import axios from "axios";
-// import { nanoid } from "nanoid";
+import { nanoid } from "nanoid";
 import Header from "./modules/Header";
 import { useState } from "react";
+import { useEffect } from "react";
 // import { useEffect } from "react";
-// import Table from "./modules/Table/Table";
+import Table from "./modules/Table/Table";
 
 export default function App() {
-  const [tableData, setTableData] = useState();
-  console.log("tableData", tableData);
-
-  getCharacterHomeWorldSpecieData();
+  const [tableData, setTableData] = useState([]);
+  // console.log("tableData", tableData);
   let count = 0;
-  const randomHome = Math.floor(Math.random() * 82);
+  useEffect(() => {
+    getCharacterHomeWorldSpecieData();
+  }, [tableData]);
+  // let tableCellData;
+  // useEffect(() => {
+  const tableCellData = tableData.map((data) => {
+    return (
+      <Table
+        key={nanoid()}
+        id={count++}
+        name={data.name}
+        birth={data.birth_year}
+        height={data.height}
+        mass={data.mass}
+        homeWorld={data.homeworld}
+        species={data.species}
+      />
+    );
+  });
+  // console.log(tableCellData);
+  // }, [tableData]);
+
   async function getCharacterHomeWorldSpecieData() {
     let fetchCharacterData = await axios.get("https://swapi.dev/api/people");
     let characterResponse = await fetchCharacterData.data;
@@ -33,37 +53,47 @@ export default function App() {
     }
 
     for (let char of characterDataArray) {
-      // console.log(char.homeworld, count++);
       const getHomeWorldUrl = await axios.get(char.homeworld);
       const homeName = await getHomeWorldUrl.data.name;
       char.homeworld = homeName;
-
-      // console.log(randomHome);
-      // const objKey = Object.keys(char);
-      // console.log(objKey, "homeUrl");
     }
 
     for (let char of characterDataArray) {
-      console.log(char.species, count++);
       const getSepcieUrl = await axios.get(char.species);
       const specieName = await getSepcieUrl.data.name;
       char.species = specieName;
     }
 
-    console.log(
-      // "characterDataArray" + characterDataArray[randomHome] + randomHome
-      randomHome,
-      characterDataArray[randomHome]
-    );
+    // console.log(
+    // "characterDataArray" + characterDataArray[randomHome] + randomHome//this does not work WHY???
+    //   randomHome,
+    //   characterDataArray[randomHome]
+    // );
     // console.log(characterDataArray);
+    setTableData(characterDataArray);
   }
+
+  // function searchCharacterByName(tableData) {
+  //   if (document.getElementById("searchCharacter").value === tableData.name) {
+  //     console.log("Passed");
+  //   }
+  // }
 
   return (
     <div>
       <Header />
+      {/* <input
+        id="searchCharacter"
+        type="text"
+        value=""
+        placeholder="Search Character by name..."
+        className="m-3"
+        onChange={searchCharacterByName}
+      /> */}
       <table className="table table-bordered mt-4">
         <thead className="table table-hover table-sm">
           <tr>
+            <td>Id</td>
             <td>Name</td>
             <td>Birth Date</td>
             <td>Height</td>
@@ -72,7 +102,7 @@ export default function App() {
             <td>Species</td>
           </tr>
         </thead>
-        {/* {tableCellData} */}
+        {tableCellData}
       </table>
     </div>
   );

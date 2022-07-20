@@ -2,6 +2,7 @@
 import React from "react";
 
 export default function Table({
+  id,
   name,
   birth,
   height,
@@ -26,6 +27,7 @@ export default function Table({
     <>
       <tbody>
         <tr>
+          <td>{id}</td>
           <td>{name}</td>
           <td>{birth}</td>
           <td>{height}</td>
