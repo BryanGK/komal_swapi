@@ -10,12 +10,15 @@ import SearchCharacterData from "./modules/SearchCharacterData";
 
 export default function App() {
   const [tableData, setTableData] = useState([]);
+  console.log(tableData, "tableData");
+
   const [searchCharacterData, setSearchCharacterData] = useState("");
-  console.log(searchCharacterData);
+  console.log(searchCharacterData, "state");
+
   let count = 0;
   useEffect(() => {
     getCharacterHomeWorldSpecieData();
-  }, [tableData]);
+  }, []);
   // let tableCellData;
   // useEffect(() => {
   const tableCellData = tableData.map((data) => {
@@ -80,20 +83,31 @@ export default function App() {
     setSearchCharacterData(event.target.value);
   }
 
-  function displaySearchedCharacter() {
+  function displaySearchedCharacter(e) {
+    e.preventDefault();
+    const inputText = document.getElementById("searchCharacter").value;
+    setTableData(tableData.filter((data) => inputText === data.name));
+    // setSearchCharacterData("");
+    if (inputText === "") {
+      setTableData(tableData);
+    }
+    // console.log(inputText);
     console.log("button clicked!");
   }
 
   return (
     <div>
       <Header />
-      <SearchCharacterData
-        name="searchCharacter"
-        value={searchCharacterData}
-        handleChange={handleChange}
-        // clickEvent={displaySearchedCharacter(searchCharacterData)}
-      />
-      <button onClick={displaySearchedCharacter}>Search...</button>
+      <form>
+        <SearchCharacterData
+          name="searchCharacter"
+          value={searchCharacterData}
+          handleChange={handleChange}
+          // clickEvent={displaySearchedCharacter(searchCharacterData)}
+        />
+        <button onClick={displaySearchedCharacter}>Search...</button>
+      </form>
+
       <table className="table table-bordered mt-4">
         <thead className="table table-hover table-sm">
           <tr>
