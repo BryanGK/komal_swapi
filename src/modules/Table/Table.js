@@ -33,7 +33,7 @@ export default function Table({
           <td>{height}</td>
           <td>{mass}</td>
           <td>{homeWorld}</td>
-          <td>{species}</td>
+          <td>{species ? species : "Human"}</td>
         </tr>
       </tbody>
     </>

@@ -4,9 +4,10 @@ export default function SearchCharacterData({
   name,
   value,
   handleChange,
+  keyPress,
   // displaySearchedCharacter,
 }) {
-  // console.log(handleChange);
+  // console.log("hello");
   return (
     <>
       <input
@@ -17,6 +18,7 @@ export default function SearchCharacterData({
         placeholder="Search Character by name..."
         className="m-3"
         onChange={handleChange}
+        onKeyPress={keyPress}
       />
     </>
   );
