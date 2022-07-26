@@ -6,24 +6,19 @@ import { useState } from "react";
 import { useEffect } from "react";
 import Table from "./modules/Table/Table";
 import SearchCharacterData from "./modules/SearchCharacterData";
+// import SwapiApi from "./SwapiApi";
 
 export default function App() {
   const [tableData, setTableData] = useState([]);
-  // console.log(tableData, "tableData");
-
   const [searchCharacterData, setSearchCharacterData] = useState("");
 
-  // const [filterData, setFilterData] = useState(tableData);
-  // console.log(filterData, "filterData");
-  console.log(searchCharacterData, "state");
+  const [filterData, setFilterData] = useState(tableData);
 
-  // useEffect(() => {
-  //   console.log(tableData, "tableData");
-  // }, [tableData]);
   let count = 0;
-  useEffect(() => {
-    getCharacterHomeWorldSpecieData();
-  }, []); //will call this function only once
+  // useEffect(() => {
+  //   getCharacterHomeWorldSpecieData();
+  //   setFilterData(tableData);
+  // }, []); //will call this function only once
 
   const tableCellData = tableData.map((data) => {
     return (
@@ -40,10 +35,10 @@ export default function App() {
     );
   }); //mapping the tableData state, in order to display the data in the table
 
-  async function getCharacterHomeWorldSpecieData() {
+  async function getCharacterData() {
     let fetchCharacterData = await axios.get("https://swapi.dev/api/people/");
     let characterResponse = await fetchCharacterData.data;
-    let characterDataArray = []; //after running while loop, this will have all of the characterData result
+    let characterDataArray = [];
     while (characterResponse.next) {
       characterDataArray = [
         ...characterDataArray,
@@ -57,30 +52,97 @@ export default function App() {
           ...characterResponse.results,
         ];
       }
-      // console.log(characterDataArray);
     }
-
-    for (let char of characterDataArray) {
-      const getHomeWorldUrl = await axios.get(char.homeworld);
-      const homeName = await getHomeWorldUrl.data.name;
-      char.homeworld = homeName;
-    }
-
-    for (let char of characterDataArray) {
-      const getSepcieUrl = await axios.get(char.species);
-      const specieName = await getSepcieUrl.data.name;
-      char.species = specieName;
-    }
-
-    // console.log(
-    // "characterDataArray" + characterDataArray[randomHome] + randomHome//this does not work WHY???
-    //   randomHome,
-    //   characterDataArray[randomHome]
-    // );
     // console.log(characterDataArray);
-    setTableData(characterDataArray); //updating the tableData state with the people Data
-    // setFilterData(characterDataArray);
+    return characterDataArray;
   }
+
+  async function getHomeName(characterData) {
+    // const chData = await getCharacterData();
+    // console.log(chData);
+    let homeNameArray = [];
+    for (let chHomeName of characterData) {
+      const getHomeWorldUrl = await axios.get(chHomeName.homeworld);
+      const homeName = await getHomeWorldUrl.data.name;
+      // console.log(homeName);
+      homeNameArray.push(homeName);
+    }
+    return homeNameArray;
+  }
+
+  async function getSpecieName(characterData) {
+    // const chData = await getCharacterData();
+    let specieNameArray = [];
+    for (let chSpecieName of characterData) {
+      const getSepcieUrl = await axios.get(chSpecieName.species);
+      const specieName = await getSepcieUrl.data.name;
+      // console.log(specieName);
+      // specieNameArray = [...specieNameArray, ...specieName];
+      specieNameArray.push(specieName);
+    }
+    return specieNameArray;
+  }
+
+  async function getData() {
+    const characterData = await getCharacterData();
+    const homeData = await getHomeName(characterData);
+    const specieData = await getSpecieName(characterData);
+    const data = await Promise.all([characterData, homeData, specieData]);
+    //replace homeUrl from characterData with the name of the planet
+    //   for (let homeName of characterData) {
+    //     for (let home of homeData) {
+    //       console.log(`${home} ${homeName.homeworld}`);
+    //       homeName.homeworld = home;
+    //       console.log(`${home} ${homeName.homeworld}`);
+    //     }
+    //   }
+    //   console.log(characterData);
+    // }
+    // age >= 21 ? "Beer" : "Juice";
+    for (let i = 0; i < characterData.length; i++) {
+      characterData[i].homeworld = homeData[i];
+      characterData[i].species =
+        characterData[i].species.length === 0 ? "Human" : specieData[i];
+    }
+    console.log(characterData);
+  }
+
+  getData();
+
+  // async function getCharacterHomeWorldSpecieData() {
+  //   let fetchCharacterData = await axios.get("https://swapi.dev/api/people/");
+  //   let characterResponse = await fetchCharacterData.data;
+  //   let characterDataArray = []; //after running while loop, this will have all of the characterData result
+  //   while (characterResponse.next) {
+  //     characterDataArray = [
+  //       ...characterDataArray,
+  //       ...characterResponse.results,
+  //     ];
+  //     fetchCharacterData = await axios.get(characterResponse.next);
+  //     characterResponse = await fetchCharacterData.data;
+  //     if (!characterResponse.next) {
+  //       characterDataArray = [
+  //         ...characterDataArray,
+  //         ...characterResponse.results,
+  //       ];
+  //     }
+  //     // console.log(characterDataArray);
+  //   }
+
+  //   for (let char of characterDataArray) {
+  //     const getHomeWorldUrl = await axios.get(char.homeworld);
+  //     const homeName = await getHomeWorldUrl.data.name;
+  //     char.homeworld = homeName;
+  //   }
+
+  //   for (let char of characterDataArray) {
+  //     const getSepcieUrl = await axios.get(char.species);
+  //     const specieName = await getSepcieUrl.data.name;
+  //     char.species = specieName;
+  //   }
+
+  //   setTableData(characterDataArray);
+  // }
 
   function handleChange(event) {
     event.preventDefault();
@@ -92,23 +154,19 @@ export default function App() {
 
   async function searchData() {
     let searchArray = [];
-    // console.log(searchCharacterData);
-    const tempSearchValue = searchCharacterData;
     const searchResult = await axios.get(
       `https://swapi.dev/api/people/?search=${searchCharacterData}`
     );
 
     const response = await searchResult.data.results;
-    // console.log(response);
     searchArray = [...searchArray, ...response];
-    // console.log(searchArray);
+
     for (let homeUrl of searchArray) {
       const homeName = await axios
         .get(homeUrl.homeworld)
         .then((homeName) => homeName.data.name);
       homeUrl.homeworld = homeName;
     }
-    // console.log(searchArray);
 
     for (let specie of searchArray) {
       const specieName = await axios
@@ -118,27 +176,29 @@ export default function App() {
     }
     if (searchArray.length === 1) {
       console.log(searchArray);
-      setTableData(searchArray);
+      setFilterData(searchArray);
+      setTableData(filterData);
     }
     if (!searchCharacterData) {
       setTableData(tableData);
+      console.log(tableData);
       console.log("searchBar Empty");
     }
   }
   return (
     <div>
       <Header />
-      <form>
+      {/* <form >
         <SearchCharacterData
           name="searchCharacter"
           value={searchCharacterData}
           handleChange={handleChange}
-          keyPress={searchData}
-          // searchData={searchData}
+          keyPress={searchData} */}
+      {/* // searchData={searchData}
           // clickEvent={displaySearchedCharacter(searchCharacterData)}
-        />
-        {/* <button onClick={searchData}>Search...</button> */}
-      </form>
+        /> */}
+      {/* <button onClick={searchData}>Search...</button> */}
+      {/* </form> */}
 
       <table className="table table-bordered mt-4">
         <thead className="table table-hover table-sm">
@@ -152,7 +212,7 @@ export default function App() {
             <td>Species</td>
           </tr>
         </thead>
-        {tableCellData}
+        {/* {tableCellData} */}
       </table>
     </div>
   );
@@ -199,5 +259,61 @@ export default function App() {
 //   setTableData(tableData);
 // }
 // console.log(inputText);
-//   console.log("button clicked!");
+//   console.log("button clicked!")
+
+//Write a function to get only characterData
+//   async function getCharacterData() {
+//     let fetchCharacterData = await axios.get("https://swapi.dev/api/people/");
+//     let characterResponse = await fetchCharacterData.data;
+//     let characterDataArray = [];
+//     while (characterResponse.next) {
+//       characterDataArray = [
+//         ...characterDataArray,
+//         ...characterResponse.results,
+//       ];
+//       fetchCharacterData = await axios.get(characterResponse.next);
+//       characterResponse = await fetchCharacterData.data;
+//       if (!characterResponse.next) {
+//         characterDataArray = [
+//           ...characterDataArray,
+//           ...characterResponse.results,
+//         ];
+//       }
+//       return characterDataArray;
+//   }
+
+// function displayData(){
+//   const [chData] =  await Promise.all([getCharacterData()]);
+//   console.log(chData)
+//   }
+
+//   displayData()
+
+//not the right approach
+// function getFirstPageData() {
+//   const firstPageData = axios.get("https://swapi.dev/api/people/");
+//   console.log(firstPageData);
+//   return firstPageData;
 // }
+
+// async function getCharacterData() {
+//   const dataFromFirstPage = await getFirstPageData();
+//   // console.log(dataFromFirstPage.data.next);
+//   let nextPageUrl = dataFromFirstPage.data.next;
+//   console.log(nextPageUrl);
+//   let allPagesUrl = [];
+//   allPagesUrl.push("https://swapi.dev/api/people/");
+//   while (nextPageUrl) {
+//     allPagesUrl.push(nextPageUrl);
+//     // allPagesUrl = [...allPagesUrl, ...nextPageUrl];
+//     const fetchNextPageData = await axios.get(nextPageUrl);
+//     nextPageUrl = await fetchNextPageData.data.next;
+//     // console.log(nextPageUrl);
+//     if (nextPageUrl === null) {
+//       console.log(allPagesUrl);
+//       return allPagesUrl;
+//     }
+//   }
+// }
+
+// console.log(Promise.all([getCharacterData()]).then((data) => data));
