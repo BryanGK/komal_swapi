@@ -15,6 +15,31 @@ export default function Table({ tableData }) {
         </tr>
       </thead>
       <tbody>
+        {/* {tableData
+          .filter((characterdata) => {
+            if (searchCharacterData) {
+              return characterdata;
+            }
+            if (
+              characterdata.name
+                .toLowerCase()
+                .includes(searchCharacterData.toLowerCase())
+            ) {
+              return characterdata;
+            }
+          })
+          .map((characterData) => {
+            return (
+              <tr key={nanoid()}>
+                <td>{characterData.name}</td>
+                <td>{characterData.birth_year}</td>
+                <td>{characterData.height}</td>
+                <td>{characterData.mass}</td>
+                <td>{characterData.homeworld}</td>
+                <td>{characterData.species}</td>
+              </tr>
+            );
+          })} */}
         {tableData.map((characterData) => {
           return (
             <tr key={nanoid()}>

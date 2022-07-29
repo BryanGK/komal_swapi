@@ -1,61 +1,63 @@
 import React from "react";
-import axios from "axios";
+// import axios from "axios";
 import Header from "./modules/Header";
-import { useState } from "react";
+// import { useState } from "react";
 import useFetchCharacterData from "./modules/Table/useFetchCharacterData";
+import useSearchCharacterData from "./modules/SearchCharacter/useSearchCharacterData";
+import InputSearchCharacterData from "./modules/SearchCharacter/InputSearchCharacterData";
 
 import Table from "./modules/Table";
-// import SearchCharacterData from "./modules/SearchCharacterData";
+import DisplayPaginationNumber from "./modules/Pagination/DisplayPaginationNumber";
 
 export default function App() {
-  const { tableData } = useFetchCharacterData();
-  const [searchCharacterData, setSearchCharacterData] = useState("");
+  const { tableData, getHomeName, getSpecieName } = useFetchCharacterData();
+  const { searchCharacterData, handleChange, displayFilteredData } =
+    useSearchCharacterData(tableData, getHomeName, getSpecieName);
 
-  function handleChange(event) {
-    event.preventDefault();
-    if (event.keyCode == 13) {
-      event.preventDefault();
-    }
-    setSearchCharacterData(event.target.value);
-  }
+  // async function searchData() {
+  //   let searchArray = [];
+  //   const searchResult = await axios.get(
+  //     `https://swapi.dev/api/people/?search=${searchCharacterData}`
+  //   );
 
-  async function searchData() {
-    let searchArray = [];
-    const searchResult = await axios.get(
-      `https://swapi.dev/api/people/?search=${searchCharacterData}`
-    );
+  //   const response = await searchResult.data.results;
+  //   searchArray = [...searchArray, ...response];
 
-    const response = await searchResult.data.results;
-    searchArray = [...searchArray, ...response];
+  //   for (let homeUrl of searchArray) {
+  //     const homeName = await axios
+  //       .get(homeUrl.homeworld)
+  //       .then((homeName) => homeName.data.name);
+  //     homeUrl.homeworld = homeName;
+  //   }
 
-    for (let homeUrl of searchArray) {
-      const homeName = await axios
-        .get(homeUrl.homeworld)
-        .then((homeName) => homeName.data.name);
-      homeUrl.homeworld = homeName;
-    }
-
-    for (let specie of searchArray) {
-      const specieName = await axios
-        .get(specie.species)
-        .then((response) => response.data.name);
-      specie.species = specieName;
-    }
-    if (searchArray.length === 1) {
-      console.log(searchArray);
-      // setFilterData(searchArray);
-      // setTableData(filterData);
-    }
-    // if (!searchCharacterData) {
-    //   // setTableData(tableData);
-    //   // console.log(tableData);
-    //   console.log("searchBar Empty");
-    // }
-  }
+  //   for (let specie of searchArray) {
+  //     const specieName = await axios
+  //       .get(specie.species)
+  //       .then((response) => response.data.name);
+  //     specie.species = specieName;
+  //   }
+  //   if (searchArray.length === 1) {
+  //     console.log(searchArray);
+  //     // setFilterData(searchArray);
+  //     // setTableData(filterData);
+  //   }
+  //   // if (!searchCharacterData) {
+  //   //   // setTableData(tableData);
+  //   //   // console.log(tableData);
+  //   //   console.log("searchBar Empty");
+  //   // }
+  // }
   return (
     <div>
       <Header />
+      <InputSearchCharacterData
+        name="searchCharacter"
+        value={searchCharacterData}
+        handleChange={handleChange}
+        displayFilteredData={displayFilteredData}
+      />
       <Table tableData={tableData} />
+      <DisplayPaginationNumber />
       {/* <form >
         <SearchCharacterData
           name="searchCharacter"
@@ -76,6 +78,14 @@ export default function App() {
 //2. Why both of the states are running, when user starts typing in the Search Bar
 //3. How to arrange the written code, so that the request can be made parallel
 //4. How to add pagination to the app, so that each page shows one fetch request
+
+// const [searchCharacterData, setSearchCharacterData] = useState("");
+
+// function handleChange(event) {
+//   event.preventDefault();
+
+//   setSearchCharacterData(event.target.value);
+// }
 
 // function searchData() {
 //   const inputText = document.getElementById("searchCharacter").value;

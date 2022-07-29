@@ -63,6 +63,25 @@ export default function useFetchCharacterData() {
     }
     return specieNameArray;
   }
-  console.log(tableData);
-  return { tableData };
+  return { tableData, getHomeName, getSpecieName };
 }
+
+// const data = replaceHomeAndSpecieUrlWithTheirNameAndReturnCharacterData(
+//   characterData,
+//   homeData,
+//   specieData
+// );
+// console.log(data);
+
+// async function replaceHomeAndSpecieUrlWithTheirNameAndReturnCharacterData(
+//   characterData,
+//   homeData,
+//   specieData
+// ) {
+//   for (let i = 0; i < characterData.length; i++) {
+//     characterData[i].homeworld = homeData[i];
+//     characterData[i].species =
+//       characterData[i].species.length === 0 ? "Human" : specieData[i];
+//   }
+//   return characterData;
+// }

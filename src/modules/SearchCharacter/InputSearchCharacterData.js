@@ -1,10 +1,11 @@
 import React from "react";
 
-export default function index({
+export default function InputSearchCharacterData({
   name,
   value,
   handleChange,
-  keyPress,
+  displayFilteredData,
+  // keyPress,
   // displaySearchedCharacter,
 }) {
   // console.log("hello");
@@ -18,7 +19,7 @@ export default function index({
         placeholder="Search Character by name..."
         className="m-3"
         onChange={handleChange}
-        onKeyPress={keyPress}
+        onKeyDown={displayFilteredData}
       />
     </>
   );
