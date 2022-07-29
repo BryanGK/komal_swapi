@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function SearchCharacterData({
+export default function index({
   name,
   value,
   handleChange,

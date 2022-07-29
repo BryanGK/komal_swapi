@@ -1,148 +1,15 @@
 import React from "react";
 import axios from "axios";
-import { nanoid } from "nanoid";
 import Header from "./modules/Header";
 import { useState } from "react";
-import { useEffect } from "react";
-import Table from "./modules/Table/Table";
-import SearchCharacterData from "./modules/SearchCharacterData";
-// import SwapiApi from "./SwapiApi";
+import useFetchCharacterData from "./modules/Table/useFetchCharacterData";
+
+import Table from "./modules/Table";
+// import SearchCharacterData from "./modules/SearchCharacterData";
 
 export default function App() {
-  const [tableData, setTableData] = useState([]);
+  const { tableData } = useFetchCharacterData();
   const [searchCharacterData, setSearchCharacterData] = useState("");
-
-  const [filterData, setFilterData] = useState(tableData);
-
-  let count = 0;
-  // useEffect(() => {
-  //   getCharacterHomeWorldSpecieData();
-  //   setFilterData(tableData);
-  // }, []); //will call this function only once
-
-  const tableCellData = tableData.map((data) => {
-    return (
-      <Table
-        key={nanoid()}
-        id={count++}
-        name={data.name}
-        birth={data.birth_year}
-        height={data.height}
-        mass={data.mass}
-        homeWorld={data.homeworld}
-        species={data.species}
-      />
-    );
-  }); //mapping the tableData state, in order to display the data in the table
-
-  async function getCharacterData() {
-    let fetchCharacterData = await axios.get("https://swapi.dev/api/people/");
-    let characterResponse = await fetchCharacterData.data;
-    let characterDataArray = [];
-    while (characterResponse.next) {
-      characterDataArray = [
-        ...characterDataArray,
-        ...characterResponse.results,
-      ];
-      fetchCharacterData = await axios.get(characterResponse.next);
-      characterResponse = await fetchCharacterData.data;
-      if (!characterResponse.next) {
-        characterDataArray = [
-          ...characterDataArray,
-          ...characterResponse.results,
-        ];
-      }
-    }
-    // console.log(characterDataArray);
-    return characterDataArray;
-  }
-
-  async function getHomeName(characterData) {
-    // const chData = await getCharacterData();
-    // console.log(chData);
-    let homeNameArray = [];
-    for (let chHomeName of characterData) {
-      const getHomeWorldUrl = await axios.get(chHomeName.homeworld);
-      const homeName = await getHomeWorldUrl.data.name;
-      // console.log(homeName);
-      homeNameArray.push(homeName);
-    }
-    return homeNameArray;
-  }
-
-  async function getSpecieName(characterData) {
-    // const chData = await getCharacterData();
-    let specieNameArray = [];
-    for (let chSpecieName of characterData) {
-      const getSepcieUrl = await axios.get(chSpecieName.species);
-      const specieName = await getSepcieUrl.data.name;
-      // console.log(specieName);
-      // specieNameArray = [...specieNameArray, ...specieName];
-      specieNameArray.push(specieName);
-    }
-    return specieNameArray;
-  }
-
-  async function getData() {
-    const characterData = await getCharacterData();
-    const homeData = await getHomeName(characterData);
-    const specieData = await getSpecieName(characterData);
-    const data = await Promise.all([characterData, homeData, specieData]);
-    //replace homeUrl from characterData with the name of the planet
-    //   for (let homeName of characterData) {
-    //     for (let home of homeData) {
-    //       console.log(`${home} ${homeName.homeworld}`);
-    //       homeName.homeworld = home;
-    //       console.log(`${home} ${homeName.homeworld}`);
-    //     }
-    //   }
-    //   console.log(characterData);
-    // }
-    // age >= 21 ? "Beer" : "Juice";
-    for (let i = 0; i < characterData.length; i++) {
-      characterData[i].homeworld = homeData[i];
-      characterData[i].species =
-        characterData[i].species.length === 0 ? "Human" : specieData[i];
-    }
-    console.log(characterData);
-  }
-
-  getData();
-
-  // async function getCharacterHomeWorldSpecieData() {
-  //   let fetchCharacterData = await axios.get("https://swapi.dev/api/people/");
-  //   let characterResponse = await fetchCharacterData.data;
-  //   let characterDataArray = []; //after running while loop, this will have all of the characterData result
-  //   while (characterResponse.next) {
-  //     characterDataArray = [
-  //       ...characterDataArray,
-  //       ...characterResponse.results,
-  //     ];
-  //     fetchCharacterData = await axios.get(characterResponse.next);
-  //     characterResponse = await fetchCharacterData.data;
-  //     if (!characterResponse.next) {
-  //       characterDataArray = [
-  //         ...characterDataArray,
-  //         ...characterResponse.results,
-  //       ];
-  //     }
-  //     // console.log(characterDataArray);
-  //   }
-
-  //   for (let char of characterDataArray) {
-  //     const getHomeWorldUrl = await axios.get(char.homeworld);
-  //     const homeName = await getHomeWorldUrl.data.name;
-  //     char.homeworld = homeName;
-  //   }
-
-  //   for (let char of characterDataArray) {
-  //     const getSepcieUrl = await axios.get(char.species);
-  //     const specieName = await getSepcieUrl.data.name;
-  //     char.species = specieName;
-  //   }
-
-  //   setTableData(characterDataArray);
-  // }
 
   function handleChange(event) {
     event.preventDefault();
@@ -176,18 +43,19 @@ export default function App() {
     }
     if (searchArray.length === 1) {
       console.log(searchArray);
-      setFilterData(searchArray);
-      setTableData(filterData);
+      // setFilterData(searchArray);
+      // setTableData(filterData);
     }
-    if (!searchCharacterData) {
-      setTableData(tableData);
-      console.log(tableData);
-      console.log("searchBar Empty");
-    }
+    // if (!searchCharacterData) {
+    //   // setTableData(tableData);
+    //   // console.log(tableData);
+    //   console.log("searchBar Empty");
+    // }
   }
   return (
     <div>
       <Header />
+      <Table tableData={tableData} />
       {/* <form >
         <SearchCharacterData
           name="searchCharacter"
@@ -199,21 +67,6 @@ export default function App() {
         /> */}
       {/* <button onClick={searchData}>Search...</button> */}
       {/* </form> */}
-
-      <table className="table table-bordered mt-4">
-        <thead className="table table-hover table-sm">
-          <tr>
-            <td>Id</td>
-            <td>Name</td>
-            <td>Birth Date</td>
-            <td>Height</td>
-            <td>Mass</td>
-            <td>Home World</td>
-            <td>Species</td>
-          </tr>
-        </thead>
-        {/* {tableCellData} */}
-      </table>
     </div>
   );
 }
@@ -317,3 +170,123 @@ export default function App() {
 // }
 
 // console.log(Promise.all([getCharacterData()]).then((data) => data));
+
+// async function getCharacterHomeWorldSpecieData() {
+//   let fetchCharacterData = await axios.get("https://swapi.dev/api/people/");
+//   let characterResponse = await fetchCharacterData.data;
+//   let characterDataArray = []; //after running while loop, this will have all of the characterData result
+//   while (characterResponse.next) {
+//     characterDataArray = [
+//       ...characterDataArray,
+//       ...characterResponse.results,
+//     ];
+//     fetchCharacterData = await axios.get(characterResponse.next);
+//     characterResponse = await fetchCharacterData.data;
+//     if (!characterResponse.next) {
+//       characterDataArray = [
+//         ...characterDataArray,
+//         ...characterResponse.results,
+//       ];
+//     }
+//     // console.log(characterDataArray);
+//   }
+
+//   for (let char of characterDataArray) {
+//     const getHomeWorldUrl = await axios.get(char.homeworld);
+//     const homeName = await getHomeWorldUrl.data.name;
+//     char.homeworld = homeName;
+//   }
+
+//   for (let char of characterDataArray) {
+//     const getSepcieUrl = await axios.get(char.species);
+//     const specieName = await getSepcieUrl.data.name;
+//     char.species = specieName;
+//   }
+
+//   setTableData(characterDataArray);
+// }
+
+// const [filterData, setFilterData] = useState(tableData);
+
+// let count = 0;
+// useEffect(() => {
+//   getCharacterHomeWorldSpecieData();
+//   setFilterData(tableData);
+// }, []); //will call this function only once
+
+// async function getCharacterData() {
+//   let fetchCharacterData = await axios.get("https://swapi.dev/api/people/");
+//   let characterResponse = await fetchCharacterData.data;
+//   let characterDataArray = [];
+//   while (characterResponse.next) {
+//     characterDataArray = [
+//       ...characterDataArray,
+//       ...characterResponse.results,
+//     ];
+//     fetchCharacterData = await axios.get(characterResponse.next);
+//     characterResponse = await fetchCharacterData.data;
+//     if (!characterResponse.next) {
+//       characterDataArray = [
+//         ...characterDataArray,
+//         ...characterResponse.results,
+//       ];
+//     }
+//   }
+//   return characterDataArray;
+// }
+
+// async function getHomeName(characterData) {
+//   let homeNameArray = [];
+//   for (let chHomeName of characterData) {
+//     const getHomeWorldUrl = await axios.get(chHomeName.homeworld);
+//     const homeName = await getHomeWorldUrl.data.name;
+//     homeNameArray.push(homeName);
+//   }
+//   return homeNameArray;
+// }
+
+// async function getSpecieName(characterData) {
+//   let specieNameArray = [];
+//   for (let chSpecieName of characterData) {
+//     const getSepcieUrl = await axios.get(chSpecieName.species);
+//     const specieName = await getSepcieUrl.data.name;
+//     specieNameArray.push(specieName);
+//   }
+//   return specieNameArray;
+// }
+
+// async function getData() {
+//   const characterData = await getCharacterData();
+//   const homeData = await getHomeName(characterData);
+//   const specieData = await getSpecieName(characterData);
+
+//   // for (let i = 0; i < characterData.length; i++) {
+//   //   characterData[i].homeworld = homeData[i];
+//   //   characterData[i].species =
+//   //     characterData[i].species.length === 0 ? "Human" : specieData[i];
+//   // }
+//   // console.log(characterData);
+
+//   setTableData(
+//     replaceHomeAndSpecieUrlWithTheirNameAndReturnCharacterData(
+//       characterData,
+//       homeData,
+//       specieData
+//     )
+//   );
+// }
+
+// function replaceHomeAndSpecieUrlWithTheirNameAndReturnCharacterData(
+//   characterData,
+//   homeData,
+//   specieData
+// ) {
+//   for (let i = 0; i < characterData.length; i++) {
+//     characterData[i].homeworld = homeData[i];
+//     characterData[i].species =
+//       characterData[i].species.length === 0 ? "Human" : specieData[i];
+//   }
+//   return characterData;
+// }
+
+// getData();
