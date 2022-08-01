@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import React from "react";
 
-export default function Table({ tableData }) {
+export default function Table({ tableData, start, end }) {
   // const data = filterData.length === 1 ? filterData : tableData;
   return (
     <table className="table table-bordered mt-4">
@@ -16,7 +16,7 @@ export default function Table({ tableData }) {
         </tr>
       </thead>
       <tbody>
-        {tableData.map((characterData) => {
+        {tableData.slice(start, end).map((characterData) => {
           return (
             <tr key={nanoid()}>
               <td>{characterData.name}</td>

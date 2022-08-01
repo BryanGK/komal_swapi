@@ -3,33 +3,45 @@ import React from "react";
 import Header from "./modules/Header";
 // import { useState } from "react";
 import useFetchCharacterData from "./modules/Table/useFetchCharacterData";
-// import useSearchCharacterData from "./modules/SearchCharacter/useSearchCharacterData";
-// import InputSearchCharacterData from "./modules/SearchCharacter/InputSearchCharacterData";
+import usePagination from "./modules/Pagination/usePagination";
 
 import Table from "./modules/Table";
-// import DisplayPaginationNumber from "./modules/Pagination/DisplayPaginationNumber";
+import DisplayPaginationNumber from "./modules/Pagination/DisplayPaginationNumber";
 
 export default function App() {
   const { tableData } = useFetchCharacterData();
-  // const { filterData, searchCharacterData, handleChange, getFilteredData } =
-  //   useSearchCharacterData(tableData, setTableData, getHomeName, getSpecieName);
+  const { counter, pagination, numberOfButtons, setCounter, onButtonChange } =
+    usePagination(tableData);
 
   return (
     <div>
       <Header />
-      {/* <InputSearchCharacterData
-        name="searchCharacter" */}
-      {/* // value={searchCharacterData}
-        // handleChange={handleChange}
-        // getFilteredData={getFilteredData}
-        // tableData={tableData}
-      /> */}
-      <Table tableData={tableData} />
-      {/* <DisplayPaginationNumber /> */}
+      <Table
+        tableData={tableData}
+        start={pagination.start}
+        end={pagination.end}
+      />
+      <DisplayPaginationNumber
+        counter={counter}
+        numberOfButtons={numberOfButtons}
+        setCounter={setCounter}
+        onButtonChange={onButtonChange}
+      />
     </div>
   );
 }
 
+{
+  /* <InputSearchCharacterData
+        name="searchCharacter" */
+}
+{
+  /* // value={searchCharacterData}
+        // handleChange={handleChange}
+        // getFilteredData={getFilteredData}
+        // tableData={tableData}
+      /> */
+}
 //Issues needs to be fixed
 //1. How to display the entire table, if the search bar is empty
 //2. Why both of the states are running, when user starts typing in the Search Bar
