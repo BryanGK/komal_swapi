@@ -4,7 +4,7 @@ export default function DisplayPaginationNumber() {
   return (
     <nav aria-label="...">
       <ul className="pagination pagination-sm">
-        <li className="page-item disabled">
+        <li className="page-item">
           <a className="page-link" href="#">
             1
           </a>
