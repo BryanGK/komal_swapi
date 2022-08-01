@@ -5,7 +5,7 @@ export default function useFetchCharacterData() {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    getData();
+    changeTableDataState();
   }, []);
 
   async function getData() {
@@ -19,8 +19,13 @@ export default function useFetchCharacterData() {
         characterData[i].species.length === 0 ? "Human" : specieData[i];
     }
 
-    setTableData(characterData);
+    // setTableData(characterData);
     return characterData;
+  }
+
+  async function changeTableDataState() {
+    const chData = await getData();
+    setTableData(chData);
   }
 
   async function getCharacterData() {
@@ -63,7 +68,7 @@ export default function useFetchCharacterData() {
     }
     return specieNameArray;
   }
-  return { tableData, getHomeName, getSpecieName };
+  return { tableData };
 }
 
 // const data = replaceHomeAndSpecieUrlWithTheirNameAndReturnCharacterData(

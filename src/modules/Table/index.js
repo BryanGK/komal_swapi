@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 import React from "react";
 
 export default function Table({ tableData }) {
+  // const data = filterData.length === 1 ? filterData : tableData;
   return (
     <table className="table table-bordered mt-4">
       <thead className="table table-hover table-sm">
@@ -15,7 +16,44 @@ export default function Table({ tableData }) {
         </tr>
       </thead>
       <tbody>
-        {/* {tableData
+        {tableData.map((characterData) => {
+          return (
+            <tr key={nanoid()}>
+              <td>{characterData.name}</td>
+              <td>{characterData.birth_year}</td>
+              <td>{characterData.height}</td>
+              <td>{characterData.mass}</td>
+              <td>{characterData.homeworld}</td>
+              <td>{characterData.species}</td>
+            </tr>
+          );
+        })}
+        {/* {tableData.map((characterData) => {
+          return (
+            <tr key={nanoid()}>
+              <td>{characterData.name}</td>
+              <td>{characterData.birth_year}</td>
+              <td>{characterData.height}</td>
+              <td>{characterData.mass}</td>
+              <td>{characterData.homeworld}</td>
+              <td>{characterData.species}</td>
+            </tr>
+          );
+        })} */}
+      </tbody>
+    </table>
+  );
+}
+
+{
+  /* {if(filterData.length === 1) {
+          return filterData
+        }else{
+          return tableData
+        // }}
+
+{
+  /* {tableData
           .filter((characterdata) => {
             if (searchCharacterData) {
               return characterdata;
@@ -39,20 +77,5 @@ export default function Table({ tableData }) {
                 <td>{characterData.species}</td>
               </tr>
             );
-          })} */}
-        {tableData.map((characterData) => {
-          return (
-            <tr key={nanoid()}>
-              <td>{characterData.name}</td>
-              <td>{characterData.birth_year}</td>
-              <td>{characterData.height}</td>
-              <td>{characterData.mass}</td>
-              <td>{characterData.homeworld}</td>
-              <td>{characterData.species}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  );
+          })} */
 }

@@ -3,72 +3,29 @@ import React from "react";
 import Header from "./modules/Header";
 // import { useState } from "react";
 import useFetchCharacterData from "./modules/Table/useFetchCharacterData";
-import useSearchCharacterData from "./modules/SearchCharacter/useSearchCharacterData";
-import InputSearchCharacterData from "./modules/SearchCharacter/InputSearchCharacterData";
+// import useSearchCharacterData from "./modules/SearchCharacter/useSearchCharacterData";
+// import InputSearchCharacterData from "./modules/SearchCharacter/InputSearchCharacterData";
 
 import Table from "./modules/Table";
-import DisplayPaginationNumber from "./modules/Pagination/DisplayPaginationNumber";
+// import DisplayPaginationNumber from "./modules/Pagination/DisplayPaginationNumber";
 
 export default function App() {
-  const { tableData, getHomeName, getSpecieName } = useFetchCharacterData();
-  const { searchCharacterData, handleChange, displayFilteredData } =
-    useSearchCharacterData(tableData, getHomeName, getSpecieName);
+  const { tableData } = useFetchCharacterData();
+  // const { filterData, searchCharacterData, handleChange, getFilteredData } =
+  //   useSearchCharacterData(tableData, setTableData, getHomeName, getSpecieName);
 
-  // async function searchData() {
-  //   let searchArray = [];
-  //   const searchResult = await axios.get(
-  //     `https://swapi.dev/api/people/?search=${searchCharacterData}`
-  //   );
-
-  //   const response = await searchResult.data.results;
-  //   searchArray = [...searchArray, ...response];
-
-  //   for (let homeUrl of searchArray) {
-  //     const homeName = await axios
-  //       .get(homeUrl.homeworld)
-  //       .then((homeName) => homeName.data.name);
-  //     homeUrl.homeworld = homeName;
-  //   }
-
-  //   for (let specie of searchArray) {
-  //     const specieName = await axios
-  //       .get(specie.species)
-  //       .then((response) => response.data.name);
-  //     specie.species = specieName;
-  //   }
-  //   if (searchArray.length === 1) {
-  //     console.log(searchArray);
-  //     // setFilterData(searchArray);
-  //     // setTableData(filterData);
-  //   }
-  //   // if (!searchCharacterData) {
-  //   //   // setTableData(tableData);
-  //   //   // console.log(tableData);
-  //   //   console.log("searchBar Empty");
-  //   // }
-  // }
   return (
     <div>
       <Header />
-      <InputSearchCharacterData
-        name="searchCharacter"
-        value={searchCharacterData}
-        handleChange={handleChange}
-        displayFilteredData={displayFilteredData}
-      />
+      {/* <InputSearchCharacterData
+        name="searchCharacter" */}
+      {/* // value={searchCharacterData}
+        // handleChange={handleChange}
+        // getFilteredData={getFilteredData}
+        // tableData={tableData}
+      /> */}
       <Table tableData={tableData} />
-      <DisplayPaginationNumber />
-      {/* <form >
-        <SearchCharacterData
-          name="searchCharacter"
-          value={searchCharacterData}
-          handleChange={handleChange}
-          keyPress={searchData} */}
-      {/* // searchData={searchData}
-          // clickEvent={displaySearchedCharacter(searchCharacterData)}
-        /> */}
-      {/* <button onClick={searchData}>Search...</button> */}
-      {/* </form> */}
+      {/* <DisplayPaginationNumber /> */}
     </div>
   );
 }
@@ -300,3 +257,57 @@ export default function App() {
 // }
 
 // getData();
+
+// async function searchData() {
+//   let searchArray = [];
+//   const searchResult = await axios.get(
+//     `https://swapi.dev/api/people/?search=${searchCharacterData}`
+//   );
+
+//   const response = await searchResult.data.results;
+//   searchArray = [...searchArray, ...response];
+
+//   for (let homeUrl of searchArray) {
+//     const homeName = await axios
+//       .get(homeUrl.homeworld)
+//       .then((homeName) => homeName.data.name);
+//     homeUrl.homeworld = homeName;
+//   }
+
+//   for (let specie of searchArray) {
+//     const specieName = await axios
+//       .get(specie.species)
+//       .then((response) => response.data.name);
+//     specie.species = specieName;
+//   }
+//   if (searchArray.length === 1) {
+//     console.log(searchArray);
+//     // setFilterData(searchArray);
+//     // setTableData(filterData);
+//   }
+//   // if (!searchCharacterData) {
+//   //   // setTableData(tableData);
+//   //   // console.log(tableData);
+//   //   console.log("searchBar Empty");
+//   // }
+// }
+
+{
+  /* <form >
+        <SearchCharacterData
+          name="searchCharacter"
+          value={searchCharacterData}
+          handleChange={handleChange}
+          keyPress={searchData} */
+}
+{
+  /* // searchData={searchData}
+          // clickEvent={displaySearchedCharacter(searchCharacterData)}
+        /> */
+}
+{
+  /* <button onClick={searchData}>Search...</button> */
+}
+{
+  /* </form> */
+}
