@@ -45,6 +45,7 @@ export default function useFetchCharacterData() {
       starWarsData.map(async (data) => {
         const homeData = await axios.get(data.homeworld);
         const homeName = await homeData.data.name;
+        // console.log(homeName);
         return homeName;
       })
     );

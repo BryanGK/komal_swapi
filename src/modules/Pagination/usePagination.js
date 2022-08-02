@@ -8,9 +8,7 @@ export default function usePagination(tableData) {
   });
 
   const [counter, setCounter] = useState(1);
-  const [numberOfButtons, setNumberOfButtons] = useState(
-    Math.ceil(tableData.length / showPerPage)
-  );
+  const [numberOfButtons] = useState(Math.ceil(tableData.length / showPerPage));
 
   useEffect(() => {
     const value = showPerPage * counter;
@@ -35,13 +33,10 @@ export default function usePagination(tableData) {
   }
 
   return {
-    showPerPage,
     pagination,
     counter,
     numberOfButtons,
     setCounter,
-    setNumberOfButtons,
-    onPaginationChange,
     onButtonChange,
   };
 }
