@@ -4,11 +4,6 @@ import React from "react";
 export default function Table({ tableData, start, end, filterData }) {
   const data = filterData.length === 1 ? filterData : tableData;
 
-  if (filterData.length === 1) {
-    console.log(filterData);
-  } else {
-    console.log(tableData);
-  }
   return (
     <table className="table table-bordered mt-4">
       <thead className="table table-hover table-sm">
@@ -34,54 +29,7 @@ export default function Table({ tableData, start, end, filterData }) {
             </tr>
           );
         })}
-        {/* {tableData.map((characterData) => {
-          return (
-            <tr key={nanoid()}>
-              <td>{characterData.name}</td>
-              <td>{characterData.birth_year}</td>
-              <td>{characterData.height}</td>
-              <td>{characterData.mass}</td>
-              <td>{characterData.homeworld}</td>
-              <td>{characterData.species}</td>
-            </tr>
-          );
-        })} */}
       </tbody>
     </table>
   );
-}
-
-{
-  /* {if(filterData.length === 1) {
-          return filterData
-        }else{
-          return tableData
-        // }}
-
-{
-  /* {tableData
-          .filter((characterdata) => {
-            if (searchCharacterData) {
-              return characterdata;
-            }
-            if (
-              characterdata.name
-                .toLowerCase()
-                .includes(searchCharacterData.toLowerCase())
-            ) {
-              return characterdata;
-            }
-          })
-          .map((characterData) => {
-            return (
-              <tr key={nanoid()}>
-                <td>{characterData.name}</td>
-                <td>{characterData.birth_year}</td>
-                <td>{characterData.height}</td>
-                <td>{characterData.mass}</td>
-                <td>{characterData.homeworld}</td>
-                <td>{characterData.species}</td>
-              </tr>
-            );
-          })} */
 }

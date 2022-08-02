@@ -20,7 +20,7 @@ export default function InputSearchCharacterData({
         name={name}
         value={value}
         onChange={handleChange}
-        onKeyDown={displayTableData}
+        // onKeyDown={displayTableData}
       />
       <button onClick={displayFilterData}>Search</button>
     </>

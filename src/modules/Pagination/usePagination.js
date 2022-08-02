@@ -40,3 +40,6 @@ export default function usePagination(tableData) {
     onButtonChange,
   };
 }
+
+//after clicking on "next" button, it displays empty screen = ERROR
+//NEED TO FIX IT!!!
