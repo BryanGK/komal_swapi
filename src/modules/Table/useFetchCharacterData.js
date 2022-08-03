@@ -8,6 +8,8 @@ export default function useFetchCharacterData() {
     getCharacterData();
   }, []);
 
+  const [loading, setLoading] = useState(true);
+
   async function getCharacterData() {
     const starWarsData = await chData();
     const homeData = await chHomeName(starWarsData);
@@ -17,6 +19,7 @@ export default function useFetchCharacterData() {
       starWarsData[i].species = specieData[i];
     }
     setTableData(starWarsData);
+    setLoading(false);
   }
 
   async function chData() {
@@ -68,5 +71,5 @@ export default function useFetchCharacterData() {
     );
     return fetchReq;
   }
-  return { tableData };
+  return { tableData, loading };
 }

@@ -7,9 +7,10 @@ import Table from "./modules/Table";
 import DisplayPaginationNumber from "./modules/Pagination/DisplayPaginationNumber";
 import InputSearchCharacterData from "./modules/SearchCharacter/InputSearchCharacterData";
 import useSearchCharacterData from "./modules/SearchCharacter/useSearchCharacterData";
+import LoadingSpinner from "./modules/LoadingSpinner";
 
 export default function App() {
-  const { tableData } = useFetchCharacterData();
+  const { tableData, loading } = useFetchCharacterData();
   const { counter, pagination, numberOfButtons, setCounter, onButtonChange } =
     usePagination(tableData);
   const {
@@ -30,12 +31,16 @@ export default function App() {
         displayFilterData={displayFilterData}
         displayTableData={displayTableData}
       />
+
       <Table
         tableData={tableData}
         start={pagination.start}
         end={pagination.end}
         filterData={filterData}
       />
+      {/* {loading && <Circles color="#00BFFF" height={80} width={80} />} */}
+      <LoadingSpinner loading={loading} />
+
       <DisplayPaginationNumber
         counter={counter}
         numberOfButtons={numberOfButtons}
