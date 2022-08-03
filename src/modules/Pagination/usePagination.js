@@ -26,9 +26,7 @@ export default function usePagination(tableData) {
       return counter === 1 ? setCounter(1) : setCounter(counter - 1);
     }
     if (type === "next") {
-      return counter === numberOfButtons
-        ? setCounter(numberOfButtons)
-        : setCounter(counter + 1);
+      return counter === 9 ? setCounter(9) : setCounter(counter + 1);
     }
   }
 
@@ -40,6 +38,3 @@ export default function usePagination(tableData) {
     onButtonChange,
   };
 }
-
-//after clicking on "next" button, it displays empty screen = ERROR
-//NEED TO FIX IT!!!
