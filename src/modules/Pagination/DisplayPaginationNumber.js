@@ -1,16 +1,16 @@
 import React from "react";
 
-export default function DisplayPaginationNumber({ onButtonChange }) {
+export default function DisplayPaginationNumber({ counter, onButtonChange }) {
   return (
     <nav aria-label="...">
-      <ul className="pagination pagination-sm">
-        <li className="page-item">
+      <ul className="pagination justify-content-center m-5">
+        <li className={`page-item ${counter === 1 ? "disabled" : null} `}>
           <a
             className="page-link"
             href="#"
             onClick={() => onButtonChange("prev")}
           >
-            prev
+            Prev
           </a>
         </li>
         <li className="page-item">

@@ -2,15 +2,16 @@ import React from "react";
 
 export default function LoadingSpinner({ loading }) {
   // const size = {
-  //   width: 5,
-  //   height: 5,
+  //   width: 3 rem,
+  //   height: 3 rem,
   // };
   return (
-    <div className="d-flex justify-content-center">
+    <div className="spinner d-flex justify-content-center">
       {loading && (
         <div
-          className="spinner-border"
-          // style="width: 3rem; height: 3rem;"NOT WORKING WHY???"
+          className="spinner-border m-5"
+          // style="width: 3rem; height: 3rem;"
+          //"NOT WORKING WHY???"
           role="status"
         >
           <span className="sr-only"></span>

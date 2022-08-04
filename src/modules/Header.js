@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function Header(){
+export default function Header() {
   return (
-    <div>
-      <h3>Star Wars Api App</h3>
+    <div className="d-flex justify-content-center text-center m-4">
+      <h3>Star Wars</h3>
     </div>
-  )
+  );
 }

@@ -8,11 +8,10 @@ import DisplayPaginationNumber from "./modules/Pagination/DisplayPaginationNumbe
 import InputSearchCharacterData from "./modules/SearchCharacter/InputSearchCharacterData";
 import useSearchCharacterData from "./modules/SearchCharacter/useSearchCharacterData";
 import LoadingSpinner from "./modules/LoadingSpinner";
+import "./style.css";
 
 export default function App() {
   const { tableData, loading } = useFetchCharacterData();
-  const { counter, pagination, numberOfButtons, setCounter, onButtonChange } =
-    usePagination(tableData);
   const {
     value,
     handleChange,
@@ -20,33 +19,40 @@ export default function App() {
     displayFilterData,
     displayTableData,
   } = useSearchCharacterData(tableData);
+  const { counter, pagination, onButtonChange } = usePagination(
+    tableData,
+    filterData
+  );
 
   return (
     <div>
       <Header />
-      <InputSearchCharacterData
-        name="inputSearchBar"
-        value={value}
-        handleChange={handleChange}
-        displayFilterData={displayFilterData}
-        displayTableData={displayTableData}
-      />
-
-      <Table
-        tableData={tableData}
-        start={pagination.start}
-        end={pagination.end}
-        filterData={filterData}
-      />
-      {/* {loading && <Circles color="#00BFFF" height={80} width={80} />} */}
       <LoadingSpinner loading={loading} />
+      {!loading && (
+        <InputSearchCharacterData
+          name="inputSearchBar"
+          value={value}
+          handleChange={handleChange}
+          displayFilterData={displayFilterData}
+          displayTableData={displayTableData}
+        />
+      )}
 
-      <DisplayPaginationNumber
-        counter={counter}
-        numberOfButtons={numberOfButtons}
-        setCounter={setCounter}
-        onButtonChange={onButtonChange}
-      />
+      {!loading && (
+        <Table
+          tableData={tableData}
+          start={pagination.start}
+          end={pagination.end}
+          filterData={filterData}
+        />
+      )}
+
+      {!loading && (
+        <DisplayPaginationNumber
+          counter={counter}
+          onButtonChange={onButtonChange}
+        />
+      )}
     </div>
   );
 }

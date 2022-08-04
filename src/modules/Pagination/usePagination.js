@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function usePagination(tableData) {
+export default function usePagination(tableData, filterData) {
   const [showPerPage] = useState(10);
   const [pagination, setPagination] = useState({
     start: 0,
@@ -15,10 +15,12 @@ export default function usePagination(tableData) {
     const startValue = value - showPerPage;
     const endValue = value;
     onPaginationChange(startValue, endValue);
-  }, [counter]);
+  }, [counter, filterData]);
 
   function onPaginationChange(start, end) {
-    setPagination({ start: start, end: end });
+    return filterData.length === 1
+      ? setPagination({ start: 0, end: showPerPage })
+      : setPagination({ start: start, end: end });
   }
 
   function onButtonChange(type) {

@@ -15,7 +15,8 @@ export default function useSearchCharacterData(tableData) {
     displayTableData(tableData, event);
   }
 
-  function displayFilterData() {
+  function displayFilterData(event) {
+    event.preventDefault();
     for (let i = 0; i < filterData.length; i++) {
       if (value.toLowerCase() === filterData[i].name.toLowerCase()) {
         let array = [];
