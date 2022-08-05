@@ -2,8 +2,8 @@ import React from "react";
 
 export default function LoadingSpinner({ loading }) {
   const size = {
-    width: "3rem",
-    height: "3rem",
+    width: "10rem",
+    height: "10rem",
   };
   return (
     <div className="spinner d-flex justify-content-center">
