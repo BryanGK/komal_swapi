@@ -1,62 +1,59 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
-export default function useFetchCharacterData() {
+export default function useFetchCharacterData(setLoading) {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
     getCharacterData();
   }, []);
 
-  const [loading, setLoading] = useState(true);
-
   async function getCharacterData() {
-    const starWarsData = await chData();
-    const homeData = await chHomeName(starWarsData);
-    const specieData = await chSpecieName(starWarsData);
-    for (let i = 0; i < starWarsData.length; i++) {
-      starWarsData[i].homeworld = homeData[i];
-      starWarsData[i].species = specieData[i];
+    const chData = await characterData();
+    const homeData = await characterHomeName(chData);
+    const specieData = await characterSpecieName(chData);
+    for (let i = 0; i < chData.length; i++) {
+      chData[i].homeworld = homeData[i];
+      chData[i].species = specieData[i];
     }
-    setTableData(starWarsData);
+    setTableData(chData);
     setLoading(false);
   }
 
-  async function chData() {
-    let chArray = [];
+  async function characterData() {
+    let characterArray = [];
     const data = await Promise.all([
-      getData(1),
-      getData(2),
-      getData(3),
-      getData(4),
-      getData(5),
-      getData(6),
-      getData(7),
-      getData(8),
-      getData(9),
+      fetchData(1),
+      fetchData(2),
+      fetchData(3),
+      fetchData(4),
+      fetchData(5),
+      fetchData(6),
+      fetchData(7),
+      fetchData(8),
+      fetchData(9),
     ]);
 
     for (let i = 0; i < 9; i++) {
-      const pageData = data[i].data.results;
-      chArray = [...chArray, ...pageData];
+      characterArray = [...characterArray, ...data[i].data.results];
     }
-    return chArray;
+    return characterArray;
   }
 
-  async function chHomeName(starWarsData) {
-    const data = await Promise.all(
-      starWarsData.map(async (data) => {
+  async function characterHomeName(chData) {
+    const planetData = await Promise.all(
+      chData.map(async (data) => {
         const homeData = await axios.get(data.homeworld);
         const homeName = await homeData.data.name;
         return homeName;
       })
     );
-    return data;
+    return planetData;
   }
 
-  async function chSpecieName(starWarsData) {
+  async function characterSpecieName(chData) {
     const data = await Promise.all(
-      starWarsData.map(async (data) => {
+      chData.map(async (data) => {
         const specieData = await axios.get(data.species);
         const specieName = await specieData.data.name;
         const name = specieName ? specieName.toString() : "Human";
@@ -65,11 +62,12 @@ export default function useFetchCharacterData() {
     );
     return data;
   }
-  async function getData(pageNum) {
+
+  async function fetchData(pageNum) {
     const fetchReq = await axios.get(
       `https://swapi.dev/api/people/?page=${pageNum}`
     );
     return fetchReq;
   }
-  return { tableData, loading };
+  return { tableData };
 }

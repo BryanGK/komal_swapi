@@ -1,8 +1,7 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function useSearchCharacterData(tableData) {
-  const [value, setValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const [filterData, setFilterData] = useState(tableData);
 
   useEffect(() => {
@@ -11,14 +10,14 @@ export default function useSearchCharacterData(tableData) {
 
   function handleChange(event) {
     event.preventDefault();
-    setValue(event.target.value);
+    setInputValue(event.target.value);
     displayTableData(tableData, event);
   }
 
   function displayFilterData(event) {
     event.preventDefault();
     for (let i = 0; i < filterData.length; i++) {
-      if (value.toLowerCase() === filterData[i].name.toLowerCase()) {
+      if (inputValue.toLowerCase() === filterData[i].name.toLowerCase()) {
         let array = [];
         array.push(filterData[i]);
         setFilterData(array);
@@ -35,10 +34,9 @@ export default function useSearchCharacterData(tableData) {
   }
 
   return {
-    value,
+    inputValue,
     filterData,
     handleChange,
     displayFilterData,
-    displayTableData,
   };
 }

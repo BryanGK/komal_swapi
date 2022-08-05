@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Table({ tableData, start, end, filterData }) {
   const data = filterData.length === 1 ? filterData : tableData;
-  console.log(data);
+
   return (
     <div className="table-responsive">
       <table className="table table-striped table-hover table-bordered align-middle ">

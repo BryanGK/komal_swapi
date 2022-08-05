@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function DisplayPaginationNumber({ counter, onButtonChange }) {
+export default function Pagination({ counter, onButtonChange }) {
   return (
     <nav aria-label="...">
-      <ul className="pagination justify-content-center m-5">
+      <ul className="pagination justify-content-center m-4">
         <li className={`page-item ${counter === 1 ? "disabled" : null} `}>
           <a
             className="page-link"
