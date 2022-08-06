@@ -1,9 +1,14 @@
 import { nanoid } from "nanoid";
 import React from "react";
 
-export default function Table({ tableData, start, end, filterData }) {
-  const data =
-    filterData.length >= 1 && filterData.length <= 10 ? filterData : tableData;
+export default function Table({
+  inputValue,
+  tableData,
+  start,
+  end,
+  filterData,
+}) {
+  const data = inputValue ? filterData : tableData;
 
   return (
     <div className="table-responsive">

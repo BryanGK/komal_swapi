@@ -13,7 +13,7 @@ export default function useSearchCharacterData(tableData) {
   function handleChange(event) {
     event.preventDefault();
     setInputValue(event.target.value);
-    displayTableData(tableData, event);
+    // displayTableData(tableData, event);
   }
 
   async function displayFilterData() {
@@ -38,9 +38,10 @@ export default function useSearchCharacterData(tableData) {
       }
       setFilterData(searchData);
     }
-    if (!inputValue) {
-      setFilterData(tableData);
-    }
+    // if (!inputValue) {
+    //   setFilterData(tableData);
+    //   console.log(filterData);
+    // }
   }
 
   function displayTableData(tableData, event) {

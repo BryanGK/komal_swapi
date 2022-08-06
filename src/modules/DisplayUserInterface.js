@@ -42,6 +42,7 @@ export default function DisplayUserInterface() {
           start={pagination.start}
           end={pagination.end}
           filterData={filterData}
+          inputValue={inputValue}
         />
         <Pagination counter={counter} onButtonChange={onButtonChange} />
       </>

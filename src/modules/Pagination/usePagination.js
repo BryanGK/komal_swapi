@@ -15,16 +15,7 @@ export default function usePagination(filterData) {
   }, [counter, filterData]);
 
   function onPaginationChange(start, end) {
-    return filterData.length >= 1 && filterData.length <= 10
-      ? setPagination({ start: 0, end: showPerPage })
-      : setPagination({ start: start, end: end });
-    // if (filterData.length >= 1 && filterData.length <= 10) {
-    //   console.log(start, end);
-    //   setPagination({ start: 0, end: showPerPage });
-    // } else {
-    //   console.log(start, end);
-    //   setPagination({ start: start, end: end });
-    // }
+    setPagination({ start: start, end: end });
   }
 
   function onButtonChange(type) {
