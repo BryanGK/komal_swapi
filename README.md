@@ -2,7 +2,7 @@
 
 <font size = 6> This application is built in **_React_**</font>
 
-<font size=5> Live Version **_[here](https://expense-tracker-react-1.herokuapp.com/)_**</font>
+<font size=5> Live Version **_[here](https://star-wars-api-app-2.herokuapp.com/)_**</font>
 
 <img src = "Demo_Star_Wars_API_App.gif">
 
@@ -25,4 +25,4 @@
 
 # Author
 
-<font size=5>Komal | Software Developer | [Expense Tracker App](https://expense-tracker-react-1.herokuapp.com/) | [LinkedIn](https://www.linkedin.com/in/komalpreet-kaur-3b6924177/)
+<font size=5>Komal | Software Developer | [Star wars Api App](https://star-wars-api-app-2.herokuapp.com/) | [LinkedIn](https://www.linkedin.com/in/komalpreet-kaur-3b6924177/)
