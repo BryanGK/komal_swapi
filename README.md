@@ -25,4 +25,4 @@
 
 # Author
 
-<font size=5>Komal | Software Developer | [Star wars Api App](https://star-wars-api-app-2.herokuapp.com/) | [LinkedIn](https://www.linkedin.com/in/komalpreet-kaur-3b6924177/)
+<font size=5>Komal | Software Developer | [Star Wars Api App](https://star-wars-api-app-2.herokuapp.com/) | [LinkedIn](https://www.linkedin.com/in/komalpreet-kaur-3b6924177/)
