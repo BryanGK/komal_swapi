@@ -5,7 +5,6 @@ export default function Pagination({ counter, onButtonChange }) {
     <nav aria-label="...">
       <ul className="pagination justify-content-center m-4">
         <li className={`page-item ${counter === 1 ? "disabled" : null} `}>
-          {/* <li className="page-item"> */}
           <a
             className="page-link"
             href="#"

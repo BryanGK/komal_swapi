@@ -3,18 +3,11 @@ import { useState, useEffect } from "react";
 
 export default function useSearchCharacterData(tableData) {
   const [inputValue, setInputValue] = useState("");
-
   const [filterData, setFilterData] = useState(tableData);
 
   useEffect(() => {
     displayFilterData();
   }, [inputValue]);
-
-  function handleChange(event) {
-    event.preventDefault();
-    setInputValue(event.target.value);
-    // displayTableData(tableData, event);
-  }
 
   async function displayFilterData() {
     if (inputValue) {
@@ -38,18 +31,11 @@ export default function useSearchCharacterData(tableData) {
       }
       setFilterData(searchData);
     }
-    // if (!inputValue) {
-    //   setFilterData(tableData);
-    //   console.log(filterData);
-    // }
   }
 
-  function displayTableData(tableData, event) {
-    for (let i = 0; i < tableData.length; i++) {
-      if (event.target.value.toLowerCase() != tableData[i].name.toLowerCase()) {
-        setFilterData(tableData);
-      }
-    }
+  function handleChange(event) {
+    event.preventDefault();
+    setInputValue(event.target.value);
   }
 
   return {

@@ -38,9 +38,9 @@ export default function DisplayUserInterface() {
           handleChange={handleChange}
         />
         <Table
-          tableData={tableData}
           start={pagination.start}
           end={pagination.end}
+          tableData={tableData}
           filterData={filterData}
           inputValue={inputValue}
         />
