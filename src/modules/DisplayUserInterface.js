@@ -17,7 +17,10 @@ export default function DisplayUserInterface() {
   const { tableData } = useFetchCharacterData(setLoading);
   const { inputValue, filterData, handleChange } =
     useSearchCharacterData(tableData);
-  const { counter, pagination, onButtonChange } = usePagination(filterData);
+  const { counter, pagination, onButtonChange } = usePagination(
+    filterData,
+    inputValue
+  );
 
   if (loading) {
     return (
@@ -44,7 +47,11 @@ export default function DisplayUserInterface() {
           filterData={filterData}
           inputValue={inputValue}
         />
-        <Pagination counter={counter} onButtonChange={onButtonChange} />
+        <Pagination
+          counter={counter}
+          inputValue={inputValue}
+          onButtonChange={onButtonChange}
+        />
       </>
     );
   }

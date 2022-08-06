@@ -2,11 +2,11 @@ import { nanoid } from "nanoid";
 import React from "react";
 
 export default function Table({
+  inputValue,
+  tableData,
   start,
   end,
-  tableData,
   filterData,
-  inputValue,
 }) {
   const data = inputValue ? filterData : tableData;
 
