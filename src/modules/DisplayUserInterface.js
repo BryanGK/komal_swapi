@@ -15,7 +15,7 @@ import Pagination from "../modules/Pagination/Pagination";
 export default function DisplayUserInterface() {
   const [loading, setLoading] = useState(true);
   const { tableData } = useFetchCharacterData(setLoading);
-  const { inputValue, filterData, handleChange, displayFilterData } =
+  const { inputValue, filterData, handleChange } =
     useSearchCharacterData(tableData);
   const { counter, pagination, onButtonChange } = usePagination(filterData);
 
@@ -36,7 +36,6 @@ export default function DisplayUserInterface() {
           name="inputSearchBar"
           inputValue={inputValue}
           handleChange={handleChange}
-          displayFilterData={displayFilterData}
         />
         <Table
           tableData={tableData}

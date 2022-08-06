@@ -1,11 +1,6 @@
 import React from "react";
 
-export default function SearchCharacter({
-  name,
-  inputValue,
-  handleChange,
-  displayFilterData,
-}) {
+export default function SearchCharacter({ name, inputValue, handleChange }) {
   return (
     <nav className="navbar mb-3">
       <div className="d-flex flex-row container-fluid justify-content-center">
@@ -20,12 +15,6 @@ export default function SearchCharacter({
               onChange={handleChange}
             />
           </div>
-          <button
-            className="btn btn-outline-success mx-3"
-            onClick={displayFilterData}
-          >
-            Search
-          </button>
         </form>
       </div>
     </nav>
