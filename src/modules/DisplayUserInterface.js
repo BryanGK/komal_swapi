@@ -14,15 +14,18 @@ import Pagination from "../modules/Pagination/Pagination";
 
 export default function DisplayUserInterface() {
   const [loading, setLoading] = useState(true);
+  console.log(loading);
   const { tableData } = useFetchCharacterData(setLoading);
-  const { inputValue, filterData, handleChange } =
-    useSearchCharacterData(tableData);
+  const { inputValue, filterData, handleChange } = useSearchCharacterData(
+    tableData,
+    setLoading
+  );
   const { counter, pagination, onButtonChange } = usePagination(
     filterData,
     inputValue
   );
 
-  if (loading) {
+  if (loading && tableData.length === 0) {
     return (
       <>
         <Header />
@@ -38,14 +41,15 @@ export default function DisplayUserInterface() {
         <SearchCharacter
           name="inputSearchBar"
           inputValue={inputValue}
+          setLoading={setLoading}
           handleChange={handleChange}
         />
         <Table
           start={pagination.start}
           end={pagination.end}
+          inputValue={inputValue}
           tableData={tableData}
           filterData={filterData}
-          inputValue={inputValue}
         />
         <Pagination
           counter={counter}

@@ -2,13 +2,12 @@ import { useState, useEffect } from "react";
 
 export default function usePagination(filterData, inputValue) {
   const [showPerPage] = useState(10);
+  const [counter, setCounter] = useState(1);
   const [pagination, setPagination] = useState({
     start: 0,
     end: showPerPage,
   });
 
-  const [counter, setCounter] = useState(1);
-  console.log(counter);
   useEffect(() => {
     const value = showPerPage * counter;
     onPaginationChange(value - showPerPage, value);

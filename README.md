@@ -2,9 +2,7 @@
 
 <font size = 6> This application is built in **_React_**</font>
 
-<font size=5> Live Version **_[here](https://star-wars-api-app-2.herokuapp.com/)_**</font>
-
-<img src = "Demo_Star_Wars_API_App.gif">
+<font size=5> **Live Version** **_[here](https://star-wars-api-app-2.herokuapp.com/)_**</font>
 
 # **Summary**
 

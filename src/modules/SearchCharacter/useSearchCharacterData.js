@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-export default function useSearchCharacterData(tableData) {
+export default function useSearchCharacterData(tableData, setLoading) {
   const [inputValue, setInputValue] = useState("");
   const [filterData, setFilterData] = useState(tableData);
 
