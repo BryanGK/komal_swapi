@@ -1,14 +1,14 @@
 import React from "react";
 
-export default function Pagination({ counter, onButtonChange }) {
+export function Pagination({ getCharacterData, nextPage, prevPage }) {
   return (
     <nav aria-label="...">
       <ul className="pagination justify-content-center m-4">
-        <li className={`page-item ${counter === 1 ? "disabled" : null} `}>
+        <li className={`page-item`}>
           <a
             className="page-link"
             href="#"
-            onClick={() => onButtonChange("prev")}
+            onClick={() => getCharacterData(prevPage)}
           >
             Prev
           </a>
@@ -17,7 +17,7 @@ export default function Pagination({ counter, onButtonChange }) {
           <a
             className="page-link"
             href="#"
-            onClick={() => onButtonChange("next")}
+            onClick={() => getCharacterData(nextPage)}
           >
             Next
           </a>

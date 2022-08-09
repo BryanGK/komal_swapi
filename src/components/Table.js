@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import React from "react";
 
-export default function Table({
+export function Table({
   start,
   end,
   inputValue,
